@@ -13,7 +13,7 @@ class Front_Controller extends MY_Controller
 	// determine whether to display gift card link on all cart pages
 	//  This is Not the place to enable gift cards. It is a setting that is loaded during instantiation.
 	var $gift_cards_enabled;
-	
+	var $_container='container.php';
 	function __construct(){
 		
 		parent::__construct();

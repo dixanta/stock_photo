@@ -23,14 +23,14 @@ class MY_Controller extends CI_Controller
 		$this->load->database();
 
 		// load the migrations class & settings model
-		$this->load->library('migration');
+		//$this->load->library('migration');
 		$this->load->model('Settings_model');
 	
 		// Migrate to the latest migration file found
-		if ( ! $this->migration->latest())
+		/*if ( ! $this->migration->latest())
 		{
 			echo $this->migration->error_string();
-		}
+		}*/
 
 		//load in config items from the database
 		$settings = $this->Settings_model->get_settings('gocart');

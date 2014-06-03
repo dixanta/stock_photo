@@ -1,6 +1,7 @@
 <?php
+require APPPATH."third_party/MX/Router.php";
 
-class My_Router extends CI_Router 
+class My_Router extends MX_Router 
 {
 	function __construct()
 	{

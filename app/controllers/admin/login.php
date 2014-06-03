@@ -1,16 +1,19 @@
 <?php
 
-class Login extends Base_Controller {
+class Login extends Front_Controller {
 
 	function __construct()
 	{
 		parent::__construct();
+		
+		force_ssl();
+		
+		//$this->load->library('Auth');
 		$this->lang->load('login');
 	}
 
 	function index()
 	{
-
 		//we check if they are logged in, generally this would be done in the constructor, but we want to allow customers to log out still
 		//or still be able to either retrieve their password or anything else this controller may be extended to do
 		$redirect	= $this->auth->is_logged_in(false, false);
@@ -26,11 +29,11 @@ class Login extends Base_Controller {
 		$submitted 			= $this->input->post('submitted');
 		if ($submitted)
 		{
-			$username	= $this->input->post('username');
+			$email		= $this->input->post('email');
 			$password	= $this->input->post('password');
 			$remember   = $this->input->post('remember');
 			$redirect	= $this->input->post('redirect');
-			$login		= $this->auth->login_admin($username, $password, $remember);
+			$login		= $this->auth->login_admin($email, $password, $remember);
 			if ($login)
 			{
 				if ($redirect == '')
@@ -47,7 +50,9 @@ class Login extends Base_Controller {
 				redirect($this->config->item('admin_folder').'/login');
 			}
 		}
-		$this->load->view($this->config->item('admin_folder').'/login', $data);
+		
+		$this->load->view($this->config->item('admin_folder').'/login/index',$data);
+		//$this->load->view($this->_container, $data);
 	}
 	
 	function logout()

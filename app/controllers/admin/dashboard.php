@@ -5,7 +5,8 @@ class Dashboard extends Admin_Controller {
 	function __construct()
 	{
 		parent::__construct();
-
+		remove_ssl();
+		
 		if($this->auth->check_access('Orders'))
 		{
 			redirect($this->config->item('admin_folder').'/orders');
@@ -32,8 +33,9 @@ class Dashboard extends Admin_Controller {
 		// get 5 latest customers
 		$data['customers'] = $this->Customer_model->get_customers(5);
 				
-		
-		$this->view($this->config->item('admin_folder').'/dashboard', $data);
+		$data['view_page'] = $this->config->item('admin_folder').'/dashboard/dashboard';
+		//$this->load->view($this->config->item('admin_folder').'/dashboard/dashboard');
+		$this->load->view($this->_container, $data);
 	}
 
 }

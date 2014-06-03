@@ -6,6 +6,7 @@ class Orders extends Admin_Controller {
 	{		
 		parent::__construct();
 
+		remove_ssl();
 		$this->load->model('Order_model');
 		$this->load->model('Search_model');
 		$this->load->model('location_model');
@@ -31,7 +32,7 @@ class Orders extends Admin_Controller {
 				$o->items	= $this->Order_model->get_items($o->id);
 			}
 
-			force_download_content('orders.xml', $this->load->view($this->config->item('admin_folder').'/orders_xml', $data, true));
+			force_download_content('orders.xml', $this->load->view($this->config->item('admin_folder').'/order/xml', $data, true));
 			
 			//kill the script from here
 			die;
@@ -98,7 +99,8 @@ class Orders extends Admin_Controller {
 		$data['sort_by']	= $sort_by;
 		$data['sort_order']	= $sort_order;
 				
-		$this->view($this->config->item('admin_folder').'/orders', $data);
+		$data['view_page']=$this->config->item('admin_folder').'/order/orders';
+		$this->load->view($this->_container, $data);
 	}
 	
 	function export()
@@ -119,7 +121,7 @@ class Orders extends Admin_Controller {
 		
 	}
 	
-	function order($id)
+	function view($id)
 	{
 		$this->load->helper(array('form', 'date'));
 		$this->load->library('form_validation');
@@ -187,8 +189,9 @@ class Orders extends Admin_Controller {
 				}
 			}
 		}
+		$data['view_page']=$this->config->item('admin_folder').'/order/order';
+		$this->load->view($this->_container, $data);
 		
-		$this->view($this->config->item('admin_folder').'/order', $data);
 		
 	}
 	
@@ -197,7 +200,9 @@ class Orders extends Admin_Controller {
 		$this->load->helper('date');
 		$data['order']		= $this->Order_model->get_order($order_id);
 		
-		$this->load->view($this->config->item('admin_folder').'/packing_slip.php', $data);
+	
+		$data['view_page']=$this->config->item('admin_folder').'/order/packing_slip.php';
+			$this->load->view($this->_container, $data);
 	}
 	
 	function edit_status()
@@ -229,7 +234,7 @@ class Orders extends Admin_Controller {
 		$this->email->send();
 		
 		$this->session->set_flashdata('message', lang('sent_notification_message'));
-		redirect($this->config->item('admin_folder').'/orders/order/'.$order_id);
+		redirect($this->config->item('admin_folder').'/orders/view/'.$order_id);
 	}
 	
 	function bulk_delete()

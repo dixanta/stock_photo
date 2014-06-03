@@ -58,19 +58,26 @@ class Customers extends Admin_Controller {
 		$data['field']	= $field;
 		$data['by']		= $by;
 		
-		$this->view($this->config->item('admin_folder').'/customers', $data);
+			$data['view_page']=$this->config->item('admin_folder').'/customer/index';
+			$this->load->view($this->_container, $data);
+		
 	}
 	
 	function export_xml()
 	{
+		$this->load->helper('download_helper');
+		
 		$data['customers'] = (array)$this->Customer_model->get_customers();
 		
-		$this->load->helper('download_helper');
-		force_download_content('customers.xml',	$this->load->view($this->config->item('admin_folder').'/customers_xml', $data, true));
+
+		force_download_content('customers.xml',	$this->load->view($this->config->item('admin_folder').'/customer/xml', $data, true));
+		
+		//$this->load->view($this->config->item('admin_folder').'/customers_xml', $data);
 	}
 
 	function form($id = false)
 	{
+		force_ssl();
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		
@@ -140,7 +147,9 @@ class Customers extends Admin_Controller {
 				
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->view($this->config->item('admin_folder').'/customer_form', $data);
+			$data['view_page']=$this->config->item('admin_folder').'/customer/form';
+			$this->load->view($this->_container, $data);
+			
 		}
 		else
 		{
@@ -184,8 +193,9 @@ class Customers extends Admin_Controller {
 		
 		$data['page_title']	= sprintf(lang('addresses_for'), $data['customer']->firstname.' '.$data['customer']->lastname);
 		
-		$this->view($this->config->item('admin_folder').'/customer_addresses', $data);
-	}
+		$data['view_page']=$this->config->item('admin_folder').'/customer/addresses';
+		$this->load->view($this->_container, $data);
+		}
 	
 	function delete($id = false)
 	{
@@ -237,8 +247,9 @@ class Customers extends Admin_Controller {
 		
 		$data['page_title']	= 'Order List';
 		$data['orders']		= $this->Order_model->get_orders($status);
-		
-		$this->view($this->config->item('admin_folder').'/order_list', $data);
+		$data['view_page']=$this->config->item('admin_folder').'customer/order_list';
+		$this->load->view($this->_container, $data);
+
 	}
 	
 	
@@ -254,8 +265,9 @@ class Customers extends Admin_Controller {
 		}
 		
 		$data['sub_list']	= $sub_list;
+		$data['view_page']=$this->config->item('admin_folder').'/customer/subscriber_list';
+		$this->load->view($this->_container, $data);
 		
-		$this->load->view($this->config->item('admin_folder').'/customer_subscriber_list', $data);
 	}	
 	
 	//  customer groups
@@ -264,7 +276,9 @@ class Customers extends Admin_Controller {
 		$data['groups']		= $this->Customer_model->get_groups();
 		$data['page_title']	= lang('customer_groups');
 		
-		$this->view($this->config->item('admin_folder').'/customer_groups', $data);
+		$data['view_page']=$this->config->item('admin_folder').'/customer/groups';
+		$this->load->view($this->_container, $data);
+		
 	}
 	
 	function edit_group($id=0)
@@ -296,7 +310,8 @@ class Customers extends Admin_Controller {
 
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->view($this->config->item('admin_folder').'/customer_group_form', $data);
+			$data['view_page']=$this->config->item('admin_folder').'/customer/group_form';
+			$this->load->view($this->_container, $data);
 		}
 		else
 		{
@@ -346,8 +361,9 @@ class Customers extends Admin_Controller {
 	function address_list($customer_id)
 	{
 		$data['address_list'] = $this->Customer_model->get_address_list($customer_id);
+		$data['view_page']=$this->config->item('admin_folder').'customer/address_list';
+		$this->load->view($this->_container, $data);
 		
-		$this->view($this->config->item('admin_folder').'/address_list', $data);
 	}
 	
 	function address_form($customer_id, $id = false)
@@ -399,11 +415,12 @@ class Customers extends Admin_Controller {
 		$this->form_validation->set_rules('city', 'lang:city', 'trim|required');
 		$this->form_validation->set_rules('country_id', 'lang:country', 'trim|required');
 		$this->form_validation->set_rules('zone_id', 'lang:state', 'trim|required');
-		$this->form_validation->set_rules('zip', 'lang:zip', 'trim|required|max_length[32]');
+		$this->form_validation->set_rules('zip', 'lang:postcode', 'trim|required|max_length[32]');
 		
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->view($this->config->item('admin_folder').'/customer_address_form', $data);
+			$data['view_page']=$this->config->item('admin_folder').'/customer/address_form';
+			$this->load->view($this->_container, $data);
 		}
 		else
 		{

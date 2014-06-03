@@ -8,6 +8,7 @@ class Reports extends Admin_Controller {
 	function __construct()
 	{		
 		parent::__construct();
+		remove_ssl();
 
 		$this->auth->check_access('Admin', true);
 		
@@ -22,7 +23,8 @@ class Reports extends Admin_Controller {
 	{
 		$data['page_title']	= lang('reports');
 		$data['years']		= $this->Order_model->get_sales_years();
-		$this->view($this->config->item('admin_folder').'/reports', $data);
+		$data['view_page']=$this->config->item('admin_folder').'/report/index';
+		$this->load->view($this->_container, $data);
 	}
 	
 	function best_sellers()
@@ -30,15 +32,17 @@ class Reports extends Admin_Controller {
 		$start	= $this->input->post('start');
 		$end	= $this->input->post('end');
 		$data['best_sellers']	= $this->Order_model->get_best_sellers($start, $end);
-		
-		$this->load->view($this->config->item('admin_folder').'/reports/best_sellers', $data);	
+		$data['view_page']=$this->config->item('admin_folder').'/reports/best_sellers';
+		$this->load->view($this->_container, $data);
+	
 	}
 	
 	function sales()
 	{
 		$year			= $this->input->post('year');
 		$data['orders']	= $this->Order_model->get_gross_monthly_sales($year);
-		$this->load->view($this->config->item('admin_folder').'/reports/sales', $data);	
+		$data['view_page']=$this->config->item('admin_folder').'/reports/sales';
+		$this->load->view($this->_container, $data);	
 	}
 
 }

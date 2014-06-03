@@ -7,7 +7,8 @@ class Coupons extends Admin_Controller {
 	function __construct()
 	{		
 		parent::__construct();
-        
+		
+		force_ssl();
 		$this->auth->check_access('Admin', true);
 		$this->load->model('Coupon_model');
 		$this->load->model('Product_model');
@@ -19,15 +20,13 @@ class Coupons extends Admin_Controller {
 		$data['page_title']	= lang('coupons');
 		$data['coupons']	= $this->Coupon_model->get_coupons();
 		
-		$this->view($this->config->item('admin_folder').'/coupons', $data);
+		$data['view_page']=$this->config->item('admin_folder').'/coupon/index';
+		$this->load->view($this->_container, $data);
 	}
 	
 	
 	function form($id = false)
 	{
-		
-		//die(print_r($_POST));
-
 		$this->load->helper(array('form', 'date'));
 		$this->load->library('form_validation');
 		
@@ -123,7 +122,8 @@ class Coupons extends Admin_Controller {
 	
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->view($this->config->item('admin_folder').'/coupon_form', $data);
+			$data['view_page']=$this->config->item('admin_folder').'/coupon/form';
+			$this->load->view($this->_container, $data);
 		}
 		else
 		{
@@ -137,15 +137,6 @@ class Coupons extends Admin_Controller {
 			$save['reduction_target']		= $this->input->post('reduction_target');
 			$save['reduction_type']			= $this->input->post('reduction_type');
 			$save['reduction_amount']		= $this->input->post('reduction_amount');
-
-			if($save['start_date']=='')
-			{
-				$save['start_date'] = null;
-			}
-			if($save['end_date']=='')
-			{
-				$save['end_date'] = null;
-			}
 			
 			$product = $this->input->post('product');
 			

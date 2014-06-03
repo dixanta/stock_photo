@@ -5,6 +5,8 @@ class Pages extends Admin_Controller
 	function __construct()
 	{
 		parent::__construct();
+		
+		remove_ssl();
 
 		$this->auth->check_access('Admin', true);
 		$this->load->model('Page_model');
@@ -16,8 +18,8 @@ class Pages extends Admin_Controller
 		$data['page_title']	= lang('pages');
 		$data['pages']		= $this->Page_model->get_pages();
 		
-		
-		$this->view($this->config->item('admin_folder').'/pages', $data);
+		$data['view_page']=$this->config->item('admin_folder').'/page/index';
+		$this->load->view($this->_container, $data);
 	}
 	
 	/********************************************************************
@@ -80,7 +82,8 @@ class Pages extends Admin_Controller
 		// Validate the form
 		if($this->form_validation->run() == false)
 		{
-			$this->view($this->config->item('admin_folder').'/page_form', $data);
+			$data['view_page']=$this->config->item('admin_folder').'/page/form';
+			$this->load->view($this->_container, $data);
 		}
 		else
 		{
@@ -195,7 +198,8 @@ class Pages extends Admin_Controller
 		// Validate the form
 		if($this->form_validation->run() == false)
 		{
-			$this->view($this->config->item('admin_folder').'/link_form', $data);
+			$data['view_page']=$this->config->item('admin_folder').'/page/link_form';
+			$this->load->view($this->_container, $data);			
 		}
 		else
 		{	

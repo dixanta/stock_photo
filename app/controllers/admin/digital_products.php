@@ -14,8 +14,8 @@ Class Digital_Products extends Admin_Controller {
 	{
 		$data['page_title'] = lang('dgtl_pr_header');
 		$data['file_list']	= $this->digital_product_model->get_list();
-		
-		$this->view($this->config->item('admin_folder').'/digital_products', $data);
+		$data['view_page'] = $this->config->item('admin_folder').'/digital_product/index';
+		$this->load->view($this->_container, $data);
 	}
 	
 	function form($id=0)
@@ -43,8 +43,9 @@ Class Digital_Products extends Admin_Controller {
 		
 		if ($this->form_validation->run() == FALSE)
 		{
-			$this->view($this->config->item('admin_folder').'/digital_product_form', $data);
-		} else {
+			$data['view_page']=$this->config->item('admin_folder').'/digital_product/form';
+			$this->load->view($this->_container, $data);
+			} else {
 		
 			
 			if($id==0)
@@ -63,7 +64,9 @@ Class Digital_Products extends Admin_Controller {
 					$upload_data	= $this->upload->data();
 				} else {
 					$data['error']	= $this->upload->display_errors();
-					$this->view($this->config->item('admin_folder').'/digital_product_form', $data);
+					
+					$data['view_page']=$this->config->item('admin_folder').'/digital_product_form';
+					$this->load->view($this->_container, $data);
 					return;
 				}
 				

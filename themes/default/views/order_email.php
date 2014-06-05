@@ -3,7 +3,7 @@
 
 {download_section}
 
-<div>
+<div class="confirm_customer">
 <?php
 if($customer['company'] != '')
 {
@@ -47,43 +47,36 @@ if($customer['company'] != '')
 	</tr>
 </table>
 </div>
-<div>	
-	<table cellpadding="5" cellspacing="5" border="0">
+<div class="gc_view_cart_wrapper">	
+	<table class="gc_view_cart" cellpadding="5" cellspacing="5" border="0">
 		<thead>
 			<tr>
-				<th></th>
-				<th colspan="2"><?php echo lang('product_information');?></th>
+				<th class="header_left">&nbsp;</th>
+				<th class="product_info" colspan="2"><?php echo lang('product_information');?></th>
 				<th colspan="2"><?php echo lang('price_and_quantity');?></th>
-				<th></th>
+				<th class="header_right">&nbsp;</th>
 			</tr>
 		</thead>
 		<tfoot>
-			<?php if($this->go_cart->group_discount() > 0)  : ?> 
-        	<tr>
-				<td colspan="3"><?php echo lang('group_discount');?></td>
-				<td colspan="3"><?php echo format_currency(0-$this->go_cart->group_discount()); ?></td>
-			</tr>
-			<?php endif; ?>
-
 			<tr>
-				<td colspan="3"><?php echo lang('subtotal');?></td>
-				<td colspan="3">
+				<td colspan="3" class="gc_view_cart_totals"><?php echo lang('subtotal');?></td>
+				<td colspan="3" class="gc_total">
 					<?php echo format_currency($this->go_cart->subtotal()); ?>
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3"><?php echo lang('shipping');?>: <?php echo $shipping['method'] ?></td>
-				<td colspan="3"><?php echo format_currency($shipping['price']) ?></td>
+				<td colspan="3" class="gc_view_cart_totals"><?php echo lang('shipping');?>: <?php echo $shipping['method'] ?></td>
+				<td colspan="3" class="gc_total"><?php echo format_currency($shipping['price']) ?></td>
 			<tr>
 		<?php if($this->go_cart->coupon_discount() > 0)  :?> 
 			<tr>
-				<td colspan="3"><?php echo lang('coupon_discount');?></td>
-				<td colspan="3"><?php echo format_currency(0-$this->go_cart->coupon_discount()); ?>                </td>
+				<td colspan="3" class="gc_view_cart_totals"><?php echo lang('coupon_discount');?></td>
+				<td colspan="3" class="gc_total"><?php echo format_currency(0-$this->go_cart->coupon_discount()); ?>                </td>
 			</tr>
 			<?php if($this->go_cart->order_tax() != 0) :// Only show a discount subtotal if we still have taxes to add (to show what the tax is calculated from) ?> 
 			<tr>
-				<td colspan="3"><?php echo lang('discounted_subtotal');?></td>
-				<td colspan="3"><?php echo format_currency($this->go_cart->discounted_subtotal(), 2, '.', ','); ?>                </td>
+				<td colspan="3" class="gc_view_cart_totals"><?php echo lang('discounted_subtotal');?></td>
+				<td colspan="3" class="gc_total"><?php echo format_currency($this->go_cart->discounted_subtotal(), 2, '.', ','); ?>                </td>
 			</tr>
 
 <?php 
@@ -92,50 +85,52 @@ if($customer['company'] != '')
 ?>
            <?php if($this->go_cart->order_tax() != 0) : ?> 
          	<tr>
-				<td colspan="3"><?php echo lang('taxes');?></td>
+				<td colspan="3"class="gc_view_cart_totals"><?php echo lang('taxes');?></td>
 
-				<td colspan="3"><?php echo format_currency($this->go_cart->order_tax()); ?>                </td>
+				<td colspan="3" class="gc_total"><?php echo format_currency($this->go_cart->order_tax()); ?>                </td>
 			</tr>
           <?php endif;   ?>
 
            <?php if($this->go_cart->gift_card_discount() != 0) : ?> 
          	<tr>
-				<td colspan="3"><?php echo lang('gift_card');?></td>
+				<td colspan="3"class="gc_view_cart_totals"><?php echo lang('gift_card');?></td>
 
-				<td colspan="3"><?php echo format_currency($this->go_cart->gift_card_discount()); ?>                </td>
+				<td colspan="3" ><?php echo format_currency($this->go_cart->gift_card_discount()); ?>                </td>
 			</tr>
           <?php endif;   ?>
-            <tr> 
-				<td colspan="3">
-					<div></div>
+            <tr class="cart_grand_total"> 
+				<td colspan="3" class="gc_view_cart_totals">
+					<div class="cart_total_line_left"></div>
 					<?php echo lang('grand_total');?>
 				</td>
-				<td colspan="3">
-					<?php echo format_currency($this->go_cart->total()); ?>
+				<td colspan="3" class="gc_total">
+					<div class="cart_total_line_right"></div>
+					<span id="gc_total_price"><?php echo format_currency($this->go_cart->total()); ?></span>
 				</td>
 			</tr>
 		</tfoot>
-		<tbody>
+		<tbody class="cart_items">
 		<?php
+		$td	= 'class="gc_even"';
 		$subtotal = 0;
 		foreach ($this->go_cart->contents() as $cartkey=>$product):?>	
 			<tr <?php echo $td;?>>
-				<td></td>
-				<td>
-					<span><?php echo $product['name']; ?></span><br/>
-					<span>Sku: <?php echo $product['sku']; ?></span>
+				<td class="table_left">&nbsp;</td>
+				<td class="cart_product_info">
+					<span class="cart_product_name"><?php echo $product['name']; ?></span><br/>
+					<span class="cart_product_code">Sku: <?php echo $product['sku']; ?></span>
 				</td>
-				<td>
+				<td class="cart_product_description">
 					
 					<?php echo $product['excerpt'];
 						if(isset($product['options'])) {
 							echo '<table cellspacing="0" cellpadding="0">';
 							foreach ($product['options'] as $name=>$value)
 							{
-								echo '<tr>';
+								echo '<tr class="cart_options">';
 								if(is_array($value))
 								{
-									echo '<td><strong>'.$name.':</strong></td><td class="cart_option">';
+									echo '<td class="cart_option"><strong>'.$name.':</strong></td><td class="cart_option">';
 									foreach($value as $item)
 									{
 										echo '<div>'.$item.'</div>';
@@ -144,7 +139,7 @@ if($customer['company'] != '')
 								} 
 								else 
 								{
-									echo '<td><strong>'.$name.':</strong></td><td class="cart_option" > '.$value.'</td>';
+									echo '<td class="cart_option"><strong>'.$name.':</strong></td><td class="cart_option" > '.$value.'</td>';
 								}
 								echo '</tr>';
 							}
@@ -153,12 +148,22 @@ if($customer['company'] != '')
 						?>
 					
 				</td>
-				<td>
+				<td class="cart_quantity">
 					<?php echo format_currency($product['price']);   ?> &nbsp;x&nbsp; <?php echo $product['quantity'];?>
 				</td>
-				<td><?php echo format_currency($product['price']*$product['quantity']); ?></td>
-				<td>&nbsp;</td>
+				<td class="total"><?php echo format_currency($product['price']*$product['quantity']); ?></td>
+				<td class="table_right">&nbsp;</td>
 			</tr>
+		<?php	
+		if ($td == 'class="gc_even"')
+		{
+			$td = 'class="gc_odd"';
+		}
+		else
+		{
+			$td = 'class="gc_even"';
+		}
+		?>
 		<?php endforeach;?>
 		</tbody>
 	</table>

@@ -49,7 +49,7 @@ class Auth
                 }
                 elseif($default_redirect)
                 {
-                    redirect(config_item('admin_folder').'/dashboard/');
+                    redirect('dashboard/admin/dashboard');
                 }
                 else
                 {
@@ -100,7 +100,7 @@ class Auth
                 
             if ($default_redirect)
             {   
-                redirect(config_item('admin_folder').'/login');
+                redirect('login/admin/login');
             }
             
             return false;

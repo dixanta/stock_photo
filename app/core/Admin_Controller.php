@@ -4,7 +4,8 @@ class Admin_Controller extends MY_Controller
 {
 	
 	private $template;
-	
+    var $_container='admin/container.php';
+    var $admin_url;
 	function __construct()
 	{
 		parent::__construct();

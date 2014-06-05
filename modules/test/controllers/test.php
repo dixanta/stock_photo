@@ -9,6 +9,6 @@ class Test extends Front_Controller
 	
 	public function index()
 	{
-		echo "test";
+		$this->load->view('test');
 	}
 }

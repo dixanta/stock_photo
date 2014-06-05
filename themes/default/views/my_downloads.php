@@ -1,3 +1,5 @@
+<?php include('header.php') ?>
+
 <?php
 $counter	= 0;
 if(!empty($downloads)) : ?>
@@ -53,7 +55,7 @@ if(!empty($downloads)) : ?>
 	</div>
 <?php endif;?>
 
-<script>
+<script type="text/javascript">
 
 function count_down(key){
 	if($('#count_down_'+key).length > 0)
@@ -76,3 +78,5 @@ function count_down(key){
 }
 
 </script>
+
+<?php include('footer.php'); ?>

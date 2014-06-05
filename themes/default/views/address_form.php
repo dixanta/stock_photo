@@ -74,7 +74,7 @@ echo form_input($f_id);
 				<?php echo form_dropdown('zone_id', $zones_menu, set_value('zone_id', $zone_id), 'id="f_zone_id" class="span12"');?>
 			</div>
 			<div class="span2">
-				<label><?php echo lang('address_zip');?></label>
+				<label><?php echo lang('address_postcode');?></label>
 				<?php echo form_input($f_zip);?>
 			</div>
 		</div>
@@ -85,7 +85,7 @@ echo form_input($f_id);
 	</div>
 </div>
 
-<script>
+<script type="text/javascript">
 $(function(){
 	$('#f_country_id').change(function(){
 			$.post('<?php echo site_url('locations/get_zone_menu');?>',{id:$('#f_country_id').val()}, function(data) {
@@ -93,7 +93,6 @@ $(function(){
 			});
 		});
 });
-
 function save_address()
 {
 	$.post("<?php echo site_url('secure/address_form');?>/"+$('#f_id').val(), {	company: $('#f_company').val(),

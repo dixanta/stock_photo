@@ -166,7 +166,7 @@ function submit_form()
 function save_status(id)
 {
 	show_animation();
-	$.post("<?php echo site_url($this->config->item('admin_folder').'/orders/edit_status'); ?>", { id: id, status: $('#status_form_'+id).val()}, function(data){
+	$.post("<?php echo site_url('order/admin/order/edit_status'); ?>", { id: id, status: $('#status_form_'+id).val()}, function(data){
 		setTimeout('hide_animation()', 500);
 	});
 }

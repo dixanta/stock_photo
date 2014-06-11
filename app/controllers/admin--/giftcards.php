@@ -8,8 +8,8 @@ class Giftcards extends Admin_Controller {
 		
 		//force_ssl();
 		
-		$this->load->model('Settings_model');
-		$this->load->model('Gift_card_model');
+		$this->load->model('setting/settings_model');
+		$this->load->model('giftcard/Gift_card_model');
 		$this->load->helper('form');
 		$this->load->library('form_validation');
 		

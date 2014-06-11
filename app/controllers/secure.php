@@ -8,7 +8,7 @@ class Secure extends Front_Controller {
 	{
 		parent::__construct();
 		
-		$this->load->model(array('location_model'));
+		$this->load->model(array('location/location_model'));
 		$this->customer = $this->go_cart->customer();
 	}
 	
@@ -309,7 +309,7 @@ class Secure extends Front_Controller {
 		
 		// load other page content 
 		//$this->load->model('banner_model');
-		$this->load->model('order_model');
+		$this->load->model('order/order_model');
 		$this->load->helper('directory');
 		$this->load->helper('date');
 		

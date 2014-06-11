@@ -1,6 +1,6 @@
 <?php
 
-class Routes_model extends CI_Model {
+class Routes_model extends MY_Model {
 
 	function __construct()
 	{

@@ -1,9 +1,18 @@
 <?php
-Class Search_model extends CI_Model
+Class Search_model extends MY_Model
 {
 	function __construct()
 	{
 		parent::__construct();
+		$this->prefix='gc_';
+        $this->_TABLES=array('SEARCH'=>$this->prefix.'search',
+							
+							);
+		
+		$this->_JOINS=array('KEY'=>array('join_type'=>'LEFT','join_field'=>'join1.id=join2.id',
+                                           'select'=>'field_names','alias'=>'alias_name'),
+                           
+                            );        
 	}
 	
 	/********************************************************************
@@ -14,10 +23,11 @@ Class Search_model extends CI_Model
 	{
 		$code	= md5($term);
 		$this->db->where('code', $code);
-		$exists	= $this->db->count_all_results('search');
+		$this->db->from($this->_TABLES['SEARCH'].' search');
+		$exists	= $this->db->count_all_results();
 		if ($exists < 1)
 		{
-			$this->db->insert('search', array('code'=>$code, 'term'=>$term));
+			$this->db->insert($this->_TABLES['SEARCH'], array('code'=>$code, 'term'=>$term));
 		}
 		return $code;
 	}
@@ -25,8 +35,11 @@ Class Search_model extends CI_Model
 	function get_term($code)
 	{
 		$this->db->select('term');
-		$result	= $this->db->get_where('search', array('code'=>$code));
+		$this->db->from($this->_TABLES['SEARCH'].' search');
+		$result	= $this->db->get_where(array('code'=>$code));
 		$result	= $result->row();
 		return $result->term;
 	}
 }
+
+?>

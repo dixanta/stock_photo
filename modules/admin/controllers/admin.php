@@ -19,7 +19,7 @@ class Admin extends Admin_Controller
 	{
 		$data['page_title']	= lang('admins');
 		$data['admins']		= $this->auth->get_admin_list();
-		$data['view_page']=$this->config->item('admin_folder').'/admin/index';
+		$data['view_page']='admin/index';
 		//$this->load->view($this->config->item('admin_folder').'/admin/index');
 		$this->load->view($this->_container, $data);
 	}
@@ -29,17 +29,17 @@ class Admin extends Admin_Controller
 		if ($this->current_admin['id'] == $id)
 		{
 			$this->session->set_flashdata('message', lang('error_self_delete'));
-			redirect($this->config->item('admin_folder').'/admin');	
+			redirect(site_url('admin/index'));	
 		}
 		
 		//delete the user
 		$this->auth->delete($id);
 		$this->session->set_flashdata('message', lang('message_user_deleted'));
-		redirect($this->config->item('admin_folder').'/admin');
+		redirect(site_url('admin/index'));
 	}
 	function form($id = false)
 	{
-		force_ssl();
+		//force_ssl();
 		
 		$this->load->helper('form');
 		$this->load->library('form_validation');
@@ -62,7 +62,7 @@ class Admin extends Admin_Controller
 			if (!$admin)
 			{
 				$this->session->set_flashdata('message', lang('admin_not_found'));
-				redirect($this->config->item('admin_folder').'/admin');
+				redirect(site_url('admin/index'));
 			}
 			//set values to db values
 			$data['id']			= $admin->id;
@@ -86,7 +86,7 @@ class Admin extends Admin_Controller
 		
 		if ($this->form_validation->run() == FALSE)
 		{	
-			$data['view_page'] = $this->config->item('admin_folder').'/admin/form';
+			$data['view_page'] = 'admin/form';
 			$this->load->view($this->_container, $data);
 		}
 		else
@@ -107,7 +107,7 @@ class Admin extends Admin_Controller
 			$this->session->set_flashdata('message', lang('message_user_saved'));
 			
 			//go back to the customer list
-			redirect($this->config->item('admin_folder').'/admin');
+			redirect(site_url('admin/index'));
 		}
 	}
 	

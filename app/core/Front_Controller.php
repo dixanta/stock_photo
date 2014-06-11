@@ -17,15 +17,15 @@ class Front_Controller extends MY_Controller
 	function __construct(){
 		
 		parent::__construct();
-
+		$this->lang->load('order');
 		//load the theme package
 		$this->load->add_package_path('themes/'.config_item('theme').'/');
-
+		
 		//load GoCart library
 		$this->load->library('Banners');
 
 		//load needed models
-		$this->load->model(array('Page_model', 'Product_model', 'Digital_Product_model', 'Gift_card_model', 'Option_model', 'Order_model', 'Settings_model'));
+		$this->load->model(array('page/Page_model', 'product/Product_model', 'digital_product/Digital_Product_model', 'giftcard/Gift_card_model', 'Option_model', 'order/Order_model', 'setting/Settings_model'));
 		
 		//load helpers
 		$this->load->helper(array('form_helper', 'formatting_helper'));
@@ -84,6 +84,33 @@ class Front_Controller extends MY_Controller
 		{
 			$this->load->view($view, $vars);
 		}
+	}
+	
+	protected function pagination_config()
+	{
+		$config['first_link'] = 'First';
+		$config['first_tag_open'] = '<li>';
+		$config['first_tag_close'] = '</li>';
+		$config['last_link'] = 'Last';
+		$config['last_tag_open'] = '<li>';
+		$config['last_tag_close'] = '</li>';
+
+		$config['full_tag_open'] = '<div class="pagination"><ul>';
+		$config['full_tag_close'] = '</ul></div>';
+		$config['cur_tag_open'] = '<li class="active"><a href="">';
+		$config['cur_tag_close'] = '</a></li>';
+		
+		$config['num_tag_open'] = '<li>';
+		$config['num_tag_close'] = '</li>';
+		
+		$config['prev_link'] = '&laquo;';
+		$config['prev_tag_open'] = '<li>';
+		$config['prev_tag_close'] = '</li>';
+
+		$config['next_link'] = '&raquo;';
+		$config['next_tag_open'] = '<li>';
+		$config['next_tag_close'] = '</li>';	
+		return $config;
 	}
 }
 

@@ -12,8 +12,8 @@ class Dashboard extends Admin_Controller {
 			redirect($this->config->item('admin_folder').'/orders');
 		}
 		
-		$this->load->model('Order_model');
-		$this->load->model('Customer_model');
+		$this->load->model('order/order_model');
+		$this->load->model('customer/Customer_model');
 		$this->load->helper('date');
 		
 		$this->lang->load('dashboard');

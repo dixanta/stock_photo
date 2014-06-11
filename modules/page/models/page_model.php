@@ -1,6 +1,18 @@
 <?php
-Class Page_model extends CI_Model
+Class Page_model extends MY_Model
 {
+
+	var $joins=array();
+    public function __construct()
+    {
+    	parent::__construct();
+        $this->prefix='';
+        $this->_TABLES=array('PAGES'=>$this->prefix.'pages');
+		$this->_JOINS=array('KEY'=>array('join_type'=>'LEFT','join_field'=>'join1.id=join2.id',
+                                           'select'=>'field_names','alias'=>'alias_name'),
+                           
+                            );        
+    }
 
 	/********************************************************************
 	Page functions
@@ -9,7 +21,8 @@ Class Page_model extends CI_Model
 	{
 		$this->db->order_by('sequence', 'ASC');
 		$this->db->where('parent_id', $parent);
-		$result = $this->db->get('pages')->result();
+		$this->db->from($this->_TABLES['PAGES']. ' pages');
+		$result = $this->db->get()->result();
 		
 		$return	= array();
 		foreach($result as $page)
@@ -33,7 +46,8 @@ Class Page_model extends CI_Model
     {
 		$this->db->order_by('sequence', 'ASC');
 		$this->db->order_by('title', 'ASC');
-		$pages = $this->db->get('pages')->result();
+		$this->db->from($this->_TABLES['PAGES']. ' pages');
+		$pages = $this->db->get()->result();
 		
 		$results	= array();
 		foreach($pages as $page)
@@ -47,7 +61,8 @@ Class Page_model extends CI_Model
 	function get_page($id)
 	{
 		$this->db->where('id', $id);
-		$result = $this->db->get('pages')->row();
+		$this->db->from($this->_TABLES['PAGES']. ' pages');
+		$result = $this->db->get()->row();
 		
 		return $result;
 	}
@@ -66,12 +81,12 @@ Class Page_model extends CI_Model
 		if($data['id'])
 		{
 			$this->db->where('id', $data['id']);
-			$this->db->update('pages', $data);
+			$this->update('PAGES', $data,array());
 			return $data['id'];
 		}
 		else
 		{
-			$this->db->insert('pages', $data);
+			$this->insert('PAGES', $data);
 			return $this->db->insert_id();
 		}
 	}
@@ -80,14 +95,15 @@ Class Page_model extends CI_Model
 	{
 		//delete the page
 		$this->db->where('id', $id);
-		$this->db->delete('pages');
+		$this->delete('PAGES',array());
 	
 	}
 	
 	function get_page_by_slug($slug)
 	{
 		$this->db->where('slug', $slug);
-		$result = $this->db->get('pages')->row();
+		$this->db->from($this->_TABLES['PAGES']. ' pages');
+		$result = $this->db->get()->row();
 		
 		return $result;
 	}

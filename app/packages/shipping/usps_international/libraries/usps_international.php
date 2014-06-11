@@ -12,7 +12,7 @@ class usps_international
 		//we're going to have this information in the back end for editing eventually
 		//username password, origin zip code etc.
 		$this->CI =& get_instance();
-		$this->CI->load->model('Settings_model');
+		$this->CI->load->model('setting/settings_model');
 		$this->CI->lang->load('usps_international');
 		
 		$this->service_list = array(

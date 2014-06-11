@@ -81,17 +81,17 @@ $(document).ready(function(){
 			
 			<div class="nav-collapse">
 				<ul class="nav">
-					<li><a href="<?php echo $this->admin_url;?>"><?php echo lang('common_home');?></a></li>
+					<li><a href="<?php echo site_url('dashboard/admin/dashboard');?>"><?php echo lang('common_home');?></a></li>
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('common_sales') ?> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="<?php echo site_url('orders/admin/orders/');?>"><?php echo lang('common_orders') ?></a></li>
+							<li><a href="<?php echo site_url('order/admin/order/');?>"><?php echo lang('common_orders') ?></a></li>
 							<?php if($this->auth->check_access('Admin')) : ?>
-							<li><a href="<?php echo site_url('customers/admin/customers/');?>"><?php echo lang('common_customers') ?></a></li>
-							<li><a href="<?php echo site_url('customers/admin/customers/groups');?>"><?php echo lang('common_groups') ?></a></li>
-							<li><a href="<?php echo site_url('reports/admin/reports/');?>"><?php echo lang('common_reports') ?></a></li>
-							<li><a href="<?php echo site_url('coupons/admin/coupons/');?>"><?php echo lang('common_coupons') ?></a></li>
-							<li><a href="<?php echo site_url('giftcards/admin/giftcards/');?>"><?php echo lang('common_giftcards') ?></a></li>
+							<li><a href="<?php echo site_url('customer/admin/customer/');?>"><?php echo lang('common_customers') ?></a></li>
+							<li><a href="<?php echo site_url('customer/admin/customer/groups');?>"><?php echo lang('common_groups') ?></a></li>
+							<li><a href="<?php echo site_url('report/admin/report/');?>"><?php echo lang('common_reports') ?></a></li>
+							<li><a href="<?php echo site_url('coupon/admin/coupon/');?>"><?php echo lang('common_coupons') ?></a></li>
+							<li><a href="<?php echo site_url('giftcard/admin/giftcard/');?>"><?php echo lang('common_giftcards') ?></a></li>
 							<?php endif; ?>
 						</ul>
 					</li>
@@ -106,15 +106,15 @@ $(document).ready(function(){
 						<ul class="dropdown-menu">
 							<li><a href="<?php echo site_url('category/admin/category/');?>"><?php echo lang('common_categories') ?></a></li>
 							<li><a href="<?php echo site_url('product/admin/product/index');?>"><?php echo lang('common_products') ?></a></li>
-							<li><a href="<?php echo $this->admin_url;?>digital_products"><?php echo lang('common_digital_products') ?></a></li>
+							<li><a href="<?php echo site_url('digital_product/admin/digital_product/');?>"><?php echo lang('common_digital_products') ?></a></li>
 						</ul>
 					</li>
 					
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('common_content') ?> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="<?php echo $this->admin_url;?>banners"><?php echo lang('common_banners') ?></a></li>
-							<li><a href="<?php echo $this->admin_url;?>boxes"><?php echo lang('common_boxes') ?></a></li>
+							<li><a href="<?php echo site_url('banner/admin/banner');?>"><?php echo lang('common_banners') ?></a></li>
+							<li><a href="<?php echo site_url('box/admin/box');?>"><?php echo lang('common_boxes') ?></a></li>
 							<li><a href="<?php echo site_url('page/admin/page/');?>"><?php echo lang('common_pages') ?></a></li>
 						</ul>
 					</li>
@@ -122,9 +122,9 @@ $(document).ready(function(){
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('common_administrative') ?> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="<?php echo $this->admin_url;?>settings"><?php echo lang('common_settings') ?></a></li>
-							<li><a href="<?php echo $this->admin_url;?>locations"><?php echo lang('common_locations') ?></a></li>
-							<li><a href="<?php echo $this->admin_url;?>admin"><?php echo lang('common_administrators') ?></a></li>
+							<li><a href="<?php echo site_url('setting/admin/setting');?>">Settings<?php echo lang('common_settings') ?></a></li>
+							<li><a href="<?php echo site_url('location/admin/location');?>"><?php echo lang('common_locations') ?></a></li>
+							<li><a href="<?php echo site_url('admin/index')?>"><?php echo lang('common_administrators') ?></a></li>
 						</ul>
 					</li>
 					<?php endif; ?>
@@ -133,7 +133,7 @@ $(document).ready(function(){
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('common_actions');?> <b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="<?php echo site_url($this->config->item('admin_folder').'/dashboard');?>"><?php echo lang('common_dashboard') ?></a></li>
+							<li><a href="<?php echo site_url('dashboard/admin/dashboard');?>"><?php echo lang('common_dashboard') ?></a></li>
 							<li><a href="<?php echo site_url();?>"><?php echo lang('common_front_end') ?></a></li>
 							<li><a href="<?php echo site_url('login/admin/login/logout');?>"><?php echo lang('common_log_out') ?></a></li>
 						</ul>

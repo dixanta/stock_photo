@@ -612,7 +612,7 @@ class Checkout extends Front_Controller {
 		// Send the user a confirmation email
 		
 		// - get the email template
-		$this->load->model('messages_model');
+		$this->load->model('setting/Messages_model');
 		$row = $this->messages_model->get_message(7);
 		
 		$download_section = '';

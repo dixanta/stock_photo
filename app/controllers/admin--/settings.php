@@ -8,8 +8,8 @@ class Settings extends Admin_Controller {
 		remove_ssl();
 
 		$this->auth->check_access('Admin', true);
-		$this->load->model('Settings_model');
-		$this->load->model('Messages_model');
+		$this->load->model('setting/settings_model');
+		$this->load->model('setting/Messages_model');
 		$this->lang->load('settings');
 	}
 	

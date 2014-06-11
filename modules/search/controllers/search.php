@@ -6,12 +6,12 @@ class Search extends Front_Controller{
         parent::__construct();
 
         //make sure we're not always behind ssl
-        remove_ssl();
+       // remove_ssl();
     }
 
     function index($code=false, $page = 0)
     {
-        $this->load->model('Search_model');
+        $this->load->model('search/search_model');
 
         //check to see if we have a search term
         if(!$code)
@@ -22,7 +22,7 @@ class Search extends Front_Controller{
 
         // no code? redirect so we can have the code in place for the sorting.
         // I know this isn't the best way...
-        redirect('search/index/'.$code.'/'.$page);
+        redirect(site_url('search/index/'.$code.'/'.$page));
         }
         else
         {
@@ -63,7 +63,8 @@ class Search extends Front_Controller{
         if(empty($term))
         {
             //if there is still no search term throw an error
-        $this->load->view('search_error', $data);
+			$data['view_page']='search_error';
+        $this->load->view($this->_container, $data);
 		
         }
         else
@@ -112,8 +113,8 @@ class Search extends Front_Controller{
                 $p->images	= (array)json_decode($p->images);
                 $p->options	= $this->Option_model->get_product_options($p->id);
             }
-			
-        $this->load->view('category/category', $data);
+			$data['view_page']='category/category';
+        $this->load->view($this->_container, $data);
         }
     }
 }

@@ -9,7 +9,7 @@ class Customers extends Admin_Controller {
 	{		
 		parent::__construct();
 
-		$this->load->model(array('Customer_model', 'Location_model'));
+		$this->load->model(array('customer/Customer_model', 'location/location_model'));
 		$this->load->helper('formatting_helper');
 		$this->lang->load('customer');
 	}
@@ -233,7 +233,7 @@ class Customers extends Admin_Controller {
 	function order_list($status = false)
 	{
 		//we're going to use flash data and redirect() after form submissions to stop people from refreshing and duplicating submissions
-		$this->load->model('Order_model');
+		$this->load->model('order/order_model');
 		
 		$data['page_title']	= 'Order List';
 		$data['orders']		= $this->Order_model->get_orders($status);

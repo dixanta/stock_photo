@@ -8,7 +8,7 @@ class Banners {
 	{
 		$this->CI =& get_instance();
 		
-		$this->CI->load->model('banner_model');
+		$this->CI->load->model('banner/banner_model');
 	}
 	
 	function show_collection($banner_collection_id, $quantity=5, $theme='default')

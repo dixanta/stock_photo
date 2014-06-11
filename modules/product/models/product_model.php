@@ -1,10 +1,27 @@
 <?php
-Class Product_model extends CI_Model
+
+class Product_model extends MY_Model
 {
+	public function __construct()
+    {
+    	parent::__construct();
+        $this->prefix='gc_';
+        $this->_TABLES=array('CATEGORIES'=>$this->prefix.'categories',
+							'CATEGORY_PRODUCTS'=>$this->prefix.'category_products',
+							'PRODUCTS'=>$this->prefix.'products'
+		);
+		$this->_JOINS=array('KEY'=>array('join_type'=>'LEFT','join_field'=>'join1.id=join2.id',
+                                           'select'=>'field_names','alias'=>'alias_name'),
+                           
+                            );        
+    }
 	
 	function product_autocomplete($name, $limit)
 	{
-		return	$this->db->like('name', $name)->get('products', $limit)->result();
+		$this->db->like('name', $name);
+		$this->db->from($this->_TABLES['PRODUCTS']. ' products');
+		$this->db->limit($limit);
+		return $this->db->get()->result();
 	}
 	
 	function products($data=array(), $return_count=false)
@@ -51,7 +68,7 @@ Class Product_model extends CI_Model
 				if(!empty($search->category_id))
 				{
 					//lets do some joins to get the proper category products
-					$this->db->join('category_products', 'category_products.product_id=products.id', 'right');
+					$this->db->join($this->_TABLES['CATEGORY_PRODUCTS']. ' category_products', 'category_products.product_id=products.id', 'right');
 					$this->db->where('category_products.category_id', $search->category_id);
 					$this->db->order_by('sequence', 'ASC');
 				}
@@ -59,11 +76,13 @@ Class Product_model extends CI_Model
 			
 			if($return_count)
 			{
-				return $this->db->count_all_results('products');
+				return $this->db->count_all_results($this->_TABLES['PRODUCTS']);
 			}
 			else
 			{
-				return $this->db->get('products')->result();
+
+				$this->db->from($this->_TABLES['PRODUCTS']. ' products');
+				return $this->db->get()->result();
 			}
 			
 		}
@@ -73,7 +92,8 @@ Class Product_model extends CI_Model
 	{
 		//sort by alphabetically by default
 		$this->db->order_by('name', 'ASC');
-		$result	= $this->db->get('products');
+		$this->db->from($this->_TABLES['PRODUCTS']. ' products');
+		$result	= $this->db->get();
 
 		return $result->result();
 	}
@@ -86,7 +106,7 @@ Class Product_model extends CI_Model
 			return array();
 		}
 		
-		$this->db->select('id, LEAST(IFNULL(NULLIF(saleprice, 0), price), price) as sort_price', false)->from('products');
+		$this->db->select('id, LEAST(IFNULL(NULLIF(saleprice, 0), price), price) as sort_price', false)->from($this->_TABLES['PRODUCTS']);
 		
 		if(count($product_ids)>1)
 		{
@@ -126,7 +146,7 @@ Class Product_model extends CI_Model
 		//if we are provided a category_id, then get products according to category
 		if ($category_id)
 		{
-			$this->db->select('category_products.*, products.*, LEAST(IFNULL(NULLIF(saleprice, 0), price), price) as sort_price', false)->from('category_products')->join('products', 'category_products.product_id=products.id')->where(array('category_id'=>$category_id, 'enabled'=>1));
+			$this->db->select('category_products.*, products.*, LEAST(IFNULL(NULLIF(saleprice, 0), price), price) as sort_price', false)->from($this->_TABLES['CATEGORY_PRODUCTS']. ' category_products')->join($this->_TABLES['PRODUCTS'].' products', 'category_products.product_id=products.id')->where(array('category_id'=>$category_id, 'enabled'=>1));
 
 			$this->db->order_by($by, $sort);
 			
@@ -138,7 +158,8 @@ Class Product_model extends CI_Model
 		{
 			//sort by alphabetically by default
 			$this->db->order_by('name', 'ASC');
-			$result	= $this->db->get('products');
+			$this->db->from($this->_TABLES['PRODUCTS']. ' products');
+			$result	= $this->db->get();
 
 			return $result->result();
 		}
@@ -146,12 +167,13 @@ Class Product_model extends CI_Model
 	
 	function count_all_products()
 	{
-		return $this->db->count_all_results('products');
+		$this->db->from($this->_TABLES['PRODUCTS']. ' products');
+		return $this->db->count_all_results();
 	}
 	
 	function count_products($id)
 	{
-		return $this->db->select('product_id')->from('category_products')->join('products', 'category_products.product_id=products.id')->where(array('category_id'=>$id, 'enabled'=>1))->count_all_results();
+		return $this->db->select('product_id')->from($this->_TABLES['CATEGORY_PRODUCTS']. ' category_products')->join($this->_TABLES['PRODUCTS']. ' products', 'category_products.product_id=products.id')->where(array('category_id'=>$id, 'enabled'=>1))->count_all_results();
 	}
 
 	function get_product($id, $related=true)
@@ -175,8 +197,8 @@ Class Product_model extends CI_Model
 
 			$this->db->where('('.implode(' OR ', $where).')', null);
 			$this->db->where('enabled', 1);
-
-			$result->related_products	= $this->db->get('products')->result();
+			$this->db->from($this->_TABLES['PRODUCTS']. ' products');
+			$result->related_products	= $this->db->get()->result();
 		}
 		else
 		{
@@ -189,7 +211,10 @@ Class Product_model extends CI_Model
 
 	function get_product_categories($id)
 	{
-		return $this->db->where('product_id', $id)->join('categories', 'category_id = categories.id')->get('category_products')->result();
+		$this->db->from($this->_TABLES['CATEGORY_PRODUCTS']. ' category_products');
+		$this->db->where('product_id', $id)->join($this->_TABLES['CATEGORIES'].' categories', 'categories.id = categories.id');
+
+		return $this->db->get()->result();
 	}
 
 	function get_slug($id)
@@ -204,7 +229,7 @@ Class Product_model extends CI_Model
 		$this->db->where('slug', $str);
 		if ($id)
 		{
-			$this->db->where('id !=', $id);
+			$this->db->where('id != ', $id);
 		}
 		$count = $this->db->count_all_results();
 
@@ -223,13 +248,13 @@ Class Product_model extends CI_Model
 		if ($product['id'])
 		{
 			$this->db->where('id', $product['id']);
-			$this->db->update('products', $product);
+			$this->db->update($this->_TABLES['PRODUCTS'], $product);
 
 			$id	= $product['id'];
 		}
 		else
 		{
-			$this->db->insert('products', $product);
+			$this->db->insert($this->_TABLES['PRODUCTS'], $product);
 			$id	= $this->db->insert_id();
 		}
 
@@ -275,7 +300,7 @@ Class Product_model extends CI_Model
 				{
 					if(!in_array($c, $categories))
 					{
-						$this->db->delete('category_products', array('product_id'=>$id,'category_id'=>$c));
+						$this->db->delete($this->_TABLES['CATEGORY_PRODUCTS'], array('product_id'=>$id,'category_id'=>$c));
 					}
 				}
 				
@@ -284,7 +309,7 @@ Class Product_model extends CI_Model
 				{
 					if(!in_array($c, $ids))
 					{
-						$this->db->insert('category_products', array('product_id'=>$id,'category_id'=>$c));
+						$this->db->insert($this->_TABLES['CATEGORY_PRODUCTS'], array('product_id'=>$id,'category_id'=>$c));
 					}
 				}
 			}
@@ -293,7 +318,7 @@ Class Product_model extends CI_Model
 				//new product add them all
 				foreach($categories as $c)
 				{
-					$this->db->insert('category_products', array('product_id'=>$id,'category_id'=>$c));
+					$this->db->insert($this->_TABLES['CATEGORY_PRODUCTS'], array('product_id'=>$id,'category_id'=>$c));
 				}
 			}
 		}
@@ -307,11 +332,13 @@ Class Product_model extends CI_Model
 	{
 		// delete product 
 		$this->db->where('id', $id);
-		$this->db->delete('products');
-
+		$this->db->delete($this->_TABLES['PRODUCTS']);
+		
+		
+		
 		//delete references in the product to category table
 		$this->db->where('product_id', $id);
-		$this->db->delete('category_products');
+		$this->db->delete($this->_TABLES['CATEGORY_PRODUCTS']);
 		
 		// delete coupon reference
 		$this->db->where('product_id', $id);
@@ -321,7 +348,7 @@ Class Product_model extends CI_Model
 
 	function add_product_to_category($product_id, $optionlist_id, $sequence)
 	{
-		$this->db->insert('product_categories', array('product_id'=>$product_id, 'category_id'=>$category_id, 'sequence'=>$sequence));
+		$this->db->insert($this->_TABLES['CATEGORY_PRODUCTS'], array('product_id'=>$product_id, 'category_id'=>$category_id, 'sequence'=>$sequence));
 	}
 
 	function search_products($term, $limit=false, $offset=false, $by=false, $sort=false)
@@ -344,8 +371,9 @@ Class Product_model extends CI_Model
 		{
 			$this->db->order_by($by, $sort);
 		}
-		
-		$results['products']	= $this->db->get('products', $limit, $offset)->result();
+		$this->db->from($this->_TABLES['PRODUCTS']. ' products');
+		$this->db->limit($limit, $offset);
+		$results['products'] = $this->db->get()->result();
 		
 		return $results;
 	}
@@ -353,7 +381,7 @@ Class Product_model extends CI_Model
 	// Build a cart-ready product array
 	function get_cart_ready_product($id, $quantity=false)
 	{
-		$product	= $this->db->get_where('products', array('id'=>$id))->row();
+		$product	= $this->db->get_where($this->_TABLES['PRODUCTS'], array('id'=>$id))->row();
 		
 		//unset some of the additional fields we don't need to keep
 		if(!$product)
@@ -387,3 +415,5 @@ Class Product_model extends CI_Model
 		return (array)$product;
 	}
 }
+
+?>

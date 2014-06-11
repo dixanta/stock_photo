@@ -9,7 +9,7 @@ class Payment extends Admin_Controller {
 		force_ssl();
 	
 		$this->auth->check_access('Admin', true);
-		$this->load->model('Settings_model');
+		$this->load->model('setting/settings_model');
 
 		$this->lang->load('settings');
 	}

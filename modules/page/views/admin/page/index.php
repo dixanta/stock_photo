@@ -1,4 +1,3 @@
-
 <script type="text/javascript">
 function areyousure()
 {
@@ -6,8 +5,8 @@ function areyousure()
 }
 </script>
 <div class="btn-group pull-right">
-	<a class="btn" href="<?php echo site_url($this->config->item('admin_folder').'/pages/form'); ?>"><i class="icon-plus-sign"></i> <?php echo lang('add_new_page');?></a>
-	<a class="btn" href="<?php echo site_url($this->config->item('admin_folder').'/pages/link_form'); ?>"><i class="icon-plus-sign"></i> <?php echo lang('add_new_link');?></a>
+	<a class="btn" href="<?php echo site_url('page/admin/page/form'); ?>"><i class="icon-plus-sign"></i> <?php echo lang('add_new_page');?></a>
+	<a class="btn" href="<?php echo site_url('page/admin/page/link_form'); ?>"><i class="icon-plus-sign"></i> <?php echo lang('add_new_link');?></a>
 </div>
 
 <table class="table table-striped">
@@ -35,13 +34,13 @@ function areyousure()
 				<td>
 					<div class="btn-group pull-right">
 						<?php if(!empty($page->url)): ?>
-							<a class="btn" href="<?php echo site_url($GLOBALS['admin_folder'].'/pages/link_form/'.$page->id); ?>"><i class="icon-pencil"></i> <?php echo lang('edit');?></a>
+							<a class="btn" href="<?php echo site_url('page/admin/page/link_form/'.$page->id); ?>"><i class="icon-pencil"></i> <?php echo lang('edit');?></a>
 							<a class="btn" href="<?php echo $page->url;?>" target="_blank"><i class="icon-play-circle"></i> <?php echo lang('follow_link');?></a>
 						<?php else: ?>
-							<a class="btn" href="<?php echo site_url($GLOBALS['admin_folder'].'/pages/form/'.$page->id); ?>"><i class="icon-pencil"></i> <?php echo lang('edit');?></a>
+							<a class="btn" href="<?php echo site_url('page/admin/page/form/'.$page->id); ?>"><i class="icon-pencil"></i> <?php echo lang('edit');?></a>
 							<a class="btn" href="<?php echo site_url($page->slug); ?>" target="_blank"><i class="icon-play-circle"></i> <?php echo lang('go_to_page');?></a>
 						<?php endif; ?>
-						<a class="btn btn-danger" href="<?php echo site_url($GLOBALS['admin_folder'].'/pages/delete/'.$page->id); ?>" onclick="return areyousure();"><i class="icon-trash icon-white"></i> <?php echo lang('delete');?></a>
+						<a class="btn btn-danger" href="<?php echo site_url('page/admin/page/delete/'.$page->id); ?>" onclick="return areyousure();"><i class="icon-trash icon-white"></i> <?php echo lang('delete');?></a>
 					</div>
 				</td>
 			</tr>

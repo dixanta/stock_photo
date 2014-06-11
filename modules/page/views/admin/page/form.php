@@ -1,5 +1,4 @@
-<?php echo form_open($this->config->item('admin_folder').'/pages/form/'.$id); ?>
-
+<?php echo form_open('page/admin/page/form/'.$id); ?>
 
 <div class="tabbable">
 	
@@ -91,7 +90,7 @@
 </div>
 
 <div class="form-actions">
-	<button type="submit" class="btn btn-primary"><?php echo lang('form_save');?></button>
-	<a href="<?php echo site_url('admin/pages')?>" class="btn btn-danger">Cancel</a>
+	<button type="submit" class="btn btn-primary"><?php echo lang('save');?></button>
+    <a href="<?php echo site_url('page/admin/page')?>" class="btn btn-danger">Cancel</a>
 </div>	
 </form>

@@ -12,8 +12,8 @@ class Reports extends Admin_Controller {
 
 		$this->auth->check_access('Admin', true);
 		
-		$this->load->model('Order_model');
-		$this->load->model('Search_model');
+		$this->load->model('order/order_model');
+		$this->load->model('search/search_model');
 		$this->load->helper(array('formatting'));
 		
 		$this->lang->load('report');

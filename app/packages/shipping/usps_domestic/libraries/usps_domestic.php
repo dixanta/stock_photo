@@ -18,7 +18,7 @@ class usps_domestic
 		//we're going to have this information in the back end for editing eventually
 		//username password, origin zip code etc.
 		$this->CI =& get_instance();
-		$this->CI->load->model('Settings_model');
+		$this->CI->load->model('setting/settings_model');
 		$this->CI->lang->load('usps_domestic');
 		
 		$this->service_list = array(

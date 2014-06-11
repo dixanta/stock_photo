@@ -1,4 +1,4 @@
-<?php include('header.php'); ?>
+
 <script type="text/javascript">
 	window.onload = function()
 	{
@@ -291,4 +291,3 @@ $(function(){
 });
 //--></script>
 
-<?php include('footer.php'); ?>

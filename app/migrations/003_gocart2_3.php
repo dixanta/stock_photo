@@ -213,7 +213,7 @@ class Migration_gocart2_3 extends CI_migration {
         //move config to the database if it exists, otherwise enter default information
         
         //load in the settings model
-        $this->load->model('settings_model');
+        $this->load->model('setting/settings_model');
         $settings = $this->settings_model->get_settings('gocart');
 
         if(empty($settings))
@@ -444,7 +444,7 @@ class Migration_gocart2_3 extends CI_migration {
         }
 
         //kill the settings from the DB
-        $this->load->model('settings_model');
+        $this->load->model('setting/settings_model');
         $this->settings_model->delete_settings('gocart');
     }   
 }

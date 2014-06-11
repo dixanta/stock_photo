@@ -80,7 +80,7 @@ $autoload['helper'] = array();
 |
 */
 
-$autoload['config'] = array();
+$autoload['config'] = array('gocart');
 
 
 /*
@@ -114,3 +114,5 @@ $autoload['model'] = array();
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */
+
+?>

@@ -7,9 +7,9 @@ class Orders extends Admin_Controller {
 		parent::__construct();
 
 		//remove_ssl();
-		$this->load->model('Order_model');
-		$this->load->model('Search_model');
-		$this->load->model('location_model');
+		$this->load->model('order/order_model');
+		$this->load->model('search/search_model');
+		$this->load->model('location/location_model');
 		$this->load->helper(array('formatting'));
 		$this->lang->load('order');
 	}
@@ -20,7 +20,7 @@ class Orders extends Admin_Controller {
 		//if they submitted an export form do the export
 		if($this->input->post('submit') == 'export')
 		{
-			$this->load->model('customer_model');
+			$this->load->model('customer/Customer_model');
 			$this->load->helper('download_helper');
 			$post	= $this->input->post(null, false);
 			$term	= (object)$post;
@@ -105,7 +105,7 @@ class Orders extends Admin_Controller {
 	
 	function export()
 	{
-		$this->load->model('customer_model');
+		$this->load->model('customer/Customer_model');
 		$this->load->helper('download_helper');
 		$post	= $this->input->post(null, false);
 		$term	= (object)$post;
@@ -125,7 +125,7 @@ class Orders extends Admin_Controller {
 	{
 		$this->load->helper(array('form', 'date'));
 		$this->load->library('form_validation');
-		$this->load->model('Gift_card_model');
+		$this->load->model('giftcard/Gift_card_model');
 			
 		$this->form_validation->set_rules('notes', 'lang:notes');
 		$this->form_validation->set_rules('status', 'lang:status', 'required');
@@ -152,7 +152,7 @@ class Orders extends Admin_Controller {
 		* Order Notification details *
 		******************************/
 		// get the list of canned messages (order)
-		$this->load->model('Messages_model');
+		$this->load->model('setting/Messages_model');
     	$msg_templates = $this->Messages_model->get_list('order');
 		
 		// replace template variables

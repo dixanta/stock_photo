@@ -61,13 +61,14 @@ class Category extends Admin_Controller {
         if (!$data['category'])
         {
             $this->session->set_flashdata('error', lang('error_not_found'));
-            redirect($this->config->item('admin_folder').'/categories');
+            redirect(site_url('category/admin/category'));
         }
             
         $data['page_title']     = sprintf(lang('organize_category'), $data['category']->name);
         
         $data['category_products']  = $this->category_model->get_category_products_admin($id);
         
+		
         $this->view('category/admin/category/organize', $data);
     }
     

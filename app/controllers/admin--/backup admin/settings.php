@@ -7,8 +7,8 @@ class Settings extends Admin_Controller {
         parent::__construct();
 
         $this->auth->check_access('Admin', true);
-        $this->load->model('Settings_model');
-        $this->load->model('Messages_model');
+        $this->load->model('setting/settings_model');
+        $this->load->model('setting/Messages_model');
         $this->lang->load('settings');
         $this->load->helper('inflector');
     }

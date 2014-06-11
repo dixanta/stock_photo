@@ -7,12 +7,15 @@ class Product extends Front_Controller{
         parent::__construct();
 
         //make sure we're not always behind ssl
-        remove_ssl();
+       // remove_ssl();
+	   
     }
 
     function index($id)
     {
+				
         //get the product
+		
         $data['product']	= $this->Product_model->get_product($id);
 
 
@@ -49,8 +52,8 @@ class Product extends Front_Controller{
         }
 
         $data['gift_cards_enabled'] = $this->gift_cards_enabled;
-
-        $this->load->view('product', $data);
+		$data['view_page'] = 'product';
+        $this->load->view($this->_container, $data);
     }
 
 }

@@ -48,10 +48,12 @@ if(isset($additional_header_info))
 				
 				<div class="nav-collapse">
 					<ul class="nav">
-						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('catalog');?> <b class="caret"></b></a>
+						<li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('catalog');?> Catalog<b class="caret"></b></a>
 							<ul class="dropdown-menu">
 								<?php foreach($this->categories as $cat_menu):?>
-								<li><a href="<?php echo site_url($cat_menu['category']->slug);?>"><?php echo $cat_menu['category']->name;?></a></li>
+								<?php foreach($cat_menu as $key => $value):?>
+								<li><a href="<?php echo site_url($value->slug);?>"><?php echo $value->name;?></a></li>
+								<?php endforeach;?>
 								<?php endforeach;?>
 							</ul>
 							
@@ -74,33 +76,33 @@ if(isset($additional_header_info))
 						
 						<?php if($this->Customer_model->is_logged_in(false, false)):?>
 							<li class="dropdown">
-								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('account');?> <b class="caret"></b></a>
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo lang('account');?> Account<b class="caret"></b></a>
 								<ul class="dropdown-menu">
-									<li><a href="<?php echo  site_url('secure/my_account');?>"><?php echo lang('my_account')?></a></li>
-									<li><a href="<?php echo  site_url('secure/my_downloads');?>"><?php echo lang('my_downloads')?></a></li>
+									<li><a href="<?php echo  site_url('secure/my_account');?>"><?php echo lang('my_account')?>My account</a></li>
+									<li><a href="<?php echo  site_url('secure/my_downloads');?>"><?php echo lang('my_downloads')?>My downloads</a></li>
 									<li class="divider"></li>
-									<li><a href="<?php echo site_url('secure/logout');?>"><?php echo lang('logout');?></a></li>
+									<li><a href="<?php echo site_url('secure/logout');?>"><?php echo lang('logout');?>Logout</a></li>
 								</ul>
 							</li>
 						<?php else: ?>
-							<li><a href="<?php echo site_url('secure/login');?>"><?php echo lang('login');?></a></li>
+							<li><a href="<?php echo site_url('secure/login');?>"><?php echo lang('login');?>LOGIN</a></li>
 						<?php endif; ?>
 							<li>
 								<a href="<?php echo site_url('cart/view_cart');?>">
 								<?php
 								if ($this->go_cart->total_items()==0)
 								{
-									echo lang('empty_cart');
+									echo lang('empty_cart'); 
 								}
 								else
 								{
 									if($this->go_cart->total_items() > 1)
 									{
-										echo sprintf (lang('multiple_items'), $this->go_cart->total_items());
+										echo sprintf (lang('multiple_items').'Multiple items', $this->go_cart->total_items());
 									}
 									else
 									{
-										echo sprintf (lang('single_item'), $this->go_cart->total_items());
+										echo sprintf (lang('single_item').'single item', $this->go_cart->total_items());
 									}
 								}
 								?>
@@ -109,7 +111,7 @@ if(isset($additional_header_info))
 					</ul>
 					
 					<?php echo form_open('search', 'class="navbar-search pull-right"');?>
-						<input type="text" name="term" class="search-query span2" placeholder="<?php echo lang('search');?>"/>
+						<input type="text" name="term" class="search-query span2" placeholder="<?php echo lang('search');?>Search"/>
 					</form>
 				</div>
 			</div>

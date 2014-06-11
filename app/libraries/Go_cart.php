@@ -42,7 +42,7 @@ class go_cart {
 	function __construct() 
 	{
 		$this->CI =& get_instance();
-		$this->CI->load->model(array('Coupon_model' , 'Gift_card_model', 'Settings_model', 'Digital_Product_model'));
+		$this->CI->load->model(array('coupon/Coupon_model' , 'giftcard/Gift_card_model', 'setting/Settings_model', 'digital_product/Digital_Product_model'));
 		
 		// Load the saved session
 		if ($this->CI->session->userdata('cart_contents') !== FALSE)
@@ -876,7 +876,7 @@ class go_cart {
 		}
 		
 		$error	= '';
-		$this->CI->load->model('Product_model');
+		$this->CI->load->model('product/product_model');
 		foreach($new_contents as $product_id => $quantity)
 		{
 			$product	= $this->CI->Product_model->get_product($product_id);
@@ -1123,8 +1123,8 @@ class go_cart {
 	// This saves the confirmed order 
 	function save_order() {
 
-		$this->CI->load->model('order_model');
-		$this->CI->load->model('Product_model');
+		$this->CI->load->model('order/order_model');
+		$this->CI->load->model('product/product_model');
 		
 		//prepare our data for being inserted into the database
 		$save	= array();

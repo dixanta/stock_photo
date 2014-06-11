@@ -5,21 +5,19 @@ class Page extends Admin_Controller
 	function __construct()
 	{
 		parent::__construct();
-		
-		//remove_ssl();
 
 		$this->auth->check_access('Admin', true);
-		$this->load->model('Page_model');
+		$this->load->model('page/page_model');
 		$this->lang->load('page');
 	}
 		
 	function index()
 	{
 		$data['page_title']	= lang('pages');
-		$data['pages']		= $this->Page_model->get_pages();
+		$data['pages']		= $this->page_model->get_pages();
 		
-		$data['view_page']='page/admin/page/index';
-		$this->load->view($this->_container, $data);
+		$data['view_page'] = 'page/admin/page/index';
+		$this->view('page/admin/page/index', $data);
 	}
 	
 	/********************************************************************
@@ -43,18 +41,18 @@ class Page extends Admin_Controller
 		$data['meta']		= '';
 		
 		$data['page_title']	= lang('page_form');
-		$data['pages']		= $this->Page_model->get_pages();
+		$data['pages']		= $this->page_model->get_pages();
 		
 		if($id)
 		{
 			
-			$page			= $this->Page_model->get_page($id);
+			$page			= $this->page_model->get_page($id);
 
 			if(!$page)
 			{
 				//page does not exist
 				$this->session->set_flashdata('error', lang('error_page_not_found'));
-				redirect(site_url('page/admin/page'));
+				redirect(site_url('page/admin/page/'));
 			}
 			
 			
@@ -81,9 +79,9 @@ class Page extends Admin_Controller
 		
 		// Validate the form
 		if($this->form_validation->run() == false)
-		{
+		{	
 			$data['view_page']='page/admin/page/form';
-			$this->load->view($this->_container, $data);
+			$this->view($this->_container, $data);
 		}
 		else
 		{
@@ -134,12 +132,12 @@ class Page extends Admin_Controller
 			}
 			
 			//save the page
-			$page_id	= $this->Page_model->save($save);
+			$page_id	= $this->page_model->save($save);
 			
 			//save the route
 			$route['id']	= $route_id;
 			$route['slug']	= $slug;
-			$route['route']	= 'cart/page/'.$page_id;
+			$route['route']	= 'page/index/'.$page_id;
 			
 			$this->Routes_model->save($route);
 			
@@ -167,16 +165,16 @@ class Page extends Admin_Controller
 
 		
 		$data['page_title']	= lang('link_form');
-		$data['pages']		= $this->Page_model->get_pages();
+		$data['pages']		= $this->page_model->get_pages();
 		if($id)
 		{
-			$page			= $this->Page_model->get_page($id);
+			$page			= $this->page_model->get_page($id);
 
 			if(!$page)
 			{
 				//page does not exist
 				$this->session->set_flashdata('error', lang('error_link_not_found'));
-				redirect(site_url('page/admin/page'));
+				redirect(site_url('page/admin/page/'));
 			}
 			
 			
@@ -197,9 +195,9 @@ class Page extends Admin_Controller
 		
 		// Validate the form
 		if($this->form_validation->run() == false)
-		{
+		{	
 			$data['view_page']='page/admin/page/link_form';
-			$this->load->view($this->_container, $data);			
+			$this->view($this->_container, $data);
 		}
 		else
 		{	
@@ -213,12 +211,12 @@ class Page extends Admin_Controller
 			$save['new_window']	= $this->input->post('new_window');
 			
 			//save the page
-			$this->Page_model->save($save);
+			$this->page_model->save($save);
 			
 			$this->session->set_flashdata('message', lang('message_saved_link'));
 			
 			//go back to the page list
-			redirect(site_url('page/admin/page'));
+			redirect(site_url('page/admin/page/'));
 		}
 	}
 	
@@ -228,14 +226,14 @@ class Page extends Admin_Controller
 	function delete($id)
 	{
 		
-		$page	= $this->Page_model->get_page($id);
+		$page	= $this->page_model->get_page($id);
 		
 		if($page)
 		{
 			$this->load->model('Routes_model');
 			
 			$this->Routes_model->delete($page->route_id);
-			$this->Page_model->delete_page($id);
+			$this->page_model->delete_page($id);
 			$this->session->set_flashdata('message', lang('message_deleted_page'));
 		}
 		else
@@ -243,6 +241,7 @@ class Page extends Admin_Controller
 			$this->session->set_flashdata('error', lang('error_page_not_found'));
 		}
 		
-		redirect(site_url('page/admin/page'));
+		redirect(site_url('page/admin/page/'));
 	}
 }	
+?>

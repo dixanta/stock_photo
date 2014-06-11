@@ -5,12 +5,13 @@ class Category extends Front_Controller {
 	public function __construct()
 	{
 		parent::__construct();
+		$this->load->model('category_model');
 	}
 
 	function index($id)
 	{
-		
-		//get the category
+				
+		//get the category 
 		$data['category'] = $this->category_model->get_category($id);
 				
 		if (!$data['category'] || $data['category']->enabled==0)
@@ -84,7 +85,11 @@ class Category extends Front_Controller {
 			$p->options	= $this->Option_model->get_product_options($p->id);
 		}
 		
+		
+			
+		$data['view_page'] = 'category';
 		$this->view('category', $data);
+		//$this->view($this->_container, $data);
 	}
 
 	

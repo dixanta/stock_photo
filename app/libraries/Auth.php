@@ -307,26 +307,27 @@ class Auth
         }   
     }
     
-    function check_username($str, $id=false)
-    {
-        $this->CI->db->select('username');
-        $this->CI->db->from('admin');
-        $this->CI->db->where('username', $str);
-        if ($id)
-        {
-            $this->CI->db->where('id !=', $id);
-        }
-        $count = $this->CI->db->count_all_results();
-        
-        if ($count > 0)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
+   function check_email($str, $id=false)
+	{
+		$this->CI->db->select('email');
+		$this->CI->db->from('admin');
+		$this->CI->db->where('email', $str);
+		if ($id)
+		{
+			$this->CI->db->where('id !=', $id);
+		}
+		$count = $this->CI->db->count_all_results();
+		
+		if ($count > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 
     function delete($id)
     {

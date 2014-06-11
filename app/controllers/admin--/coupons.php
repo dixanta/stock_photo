@@ -10,8 +10,8 @@ class Coupons extends Admin_Controller {
 		
 		//force_ssl();
 		$this->auth->check_access('Admin', true);
-		$this->load->model('Coupon_model');
-		$this->load->model('Product_model');
+		$this->load->model('coupon/coupon_model');
+		$this->load->model('product/product_model');
 		$this->lang->load('coupon');
 	}
 	

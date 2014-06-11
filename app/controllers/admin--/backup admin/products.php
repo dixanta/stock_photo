@@ -10,7 +10,7 @@ class Products extends Admin_Controller {
         
 		$this->auth->check_access('Admin', true);
 		
-		$this->load->model(array('Product_model'));
+		$this->load->model(array('product/product_model'));
 		$this->load->helper('form');
 		$this->lang->load('product');
 	}
@@ -28,7 +28,7 @@ class Products extends Admin_Controller {
 		$data['categories']	= $this->Category_model->get_categories_tiered();
 		
 		$post				= $this->input->post(null, false);
-		$this->load->model('Search_model');
+		$this->load->model('search/search_model');
 		if($post)
 		{
 			$term			= json_encode($post);

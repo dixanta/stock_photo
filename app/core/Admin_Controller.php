@@ -15,6 +15,19 @@ class Admin_Controller extends MY_Controller
 		//load the base language file
 		$this->lang->load('admin_common');
 		$this->lang->load('media');
+		$this->lang->load('order');
+//Array define for order status 
+		$data = array(
+ 					'Pending' => 'Pending',
+					 'Processing' => 'Processing',
+					 'Shipped' => 'Shipped',
+					 'On Hold' => 'On Hold',
+					 'Cancelled' => 'Cancelled',
+					 'Delivered' => 'Delivered'
+					);
+
+$this->config->set_item('order_statuses',$data); //config order status
+		
 	}
 	
 	function view($view, $vars = array(), $string=false)
@@ -51,3 +64,5 @@ class Admin_Controller extends MY_Controller
 		$this->template	= $template;
 	}
 }
+
+?>

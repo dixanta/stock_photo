@@ -11,7 +11,7 @@ class Product extends Admin_Controller {
 
 		$this->auth->check_access('Admin', true);
 		
-		$this->load->model('Product_model');
+		$this->load->model('product/Product_model');
 		$this->load->helper('form');
 		$this->lang->load('product');
 	}
@@ -29,7 +29,7 @@ class Product extends Admin_Controller {
 		$data['categories']	= $this->Category_model->get_categories_tiered();
 		
 		$post				= $this->input->post(null, false);
-		$this->load->model('Search_model');
+		$this->load->model('search/search_model');
 		if($post)
 		{
 			$term			= json_encode($post);
@@ -145,7 +145,7 @@ class Product extends Admin_Controller {
 		//$data['categories']		= $this->Category_model->get_categories_tierd();
 		//$data['product_list']	= $this->Product_model->get_products();
 		$data['file_list']		= $this->Digital_Product_model->get_list();
-
+		
 		$data['page_title']		= lang('product_form');
 
 		//default values are empty if the product is new
@@ -176,8 +176,9 @@ class Product extends Admin_Controller {
 
 		if ($id)
 		{	
-			// get the existing file associations and create a format we can read from the form to set the checkboxes
+			// get the existing file associations and create a format we can read from the form to set the checkbox
 			$pr_files 		= $this->Digital_Product_model->get_associations_by_product($id);
+		
 			foreach($pr_files as $f)
 			{
 				$data['product_files'][]  = $f->file_id;
@@ -281,6 +282,8 @@ class Product extends Admin_Controller {
 		
 		if ($this->form_validation->run() == FALSE)
 		{
+		
+			
 			$data['view_page']='product/admin/product/form';
 			$this->load->view($this->_container, $data);
 		
@@ -402,7 +405,7 @@ class Product extends Admin_Controller {
 			//save the route
 			$route['id']	= $route_id;
 			$route['slug']	= $slug;
-			$route['route']	= 'cart/product/'.$product_id;
+			$route['route']	= 'product/index/'.$product_id;
 			
 			$this->Routes_model->save($route);
 			
@@ -504,6 +507,7 @@ class Product extends Admin_Controller {
 		if ($id)
 		{	
 			$product	= $this->Product_model->get_product($id);
+			
 			//if the product does not exist, redirect them to the customer list with an error
 			if (!$product)
 			{
@@ -511,15 +515,15 @@ class Product extends Admin_Controller {
 				redirect(site_url('product/admin/product'));
 			}
 			else
-			{
-
-				// remove the slug
+			{	// remove the slug
+			
 				$this->load->model('Routes_model');
 				$this->Routes_model->remove('('.$product->slug.')');
-
+				
 				//if the product is legit, delete them
 				$this->Product_model->delete_product($id);
-
+				
+				
 				$this->session->set_flashdata('message', lang('message_deleted_product'));
 				redirect(site_url('product/admin/product'));
 			}
@@ -532,3 +536,4 @@ class Product extends Admin_Controller {
 		}
 	}
 }
+?>

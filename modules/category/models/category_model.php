@@ -40,7 +40,7 @@ Class Category_model extends MY_Model
     
 	function category_autocomplete($name, $limit)
 	{
-		return	$this->db->like('name', $name)->get('categories', $limit)->result();
+		return	$this->db->like('name', $name)->get($this->_TABLES['CATEGORIES'], $limit)->result();
 	}
 	
     function get_categories_tiered($admin = false)
@@ -70,7 +70,7 @@ Class Category_model extends MY_Model
     
     function get_category($id)
     {
-        return $this->db->get_where($this->_TABLES['CATEGORIES'], array('id'=>$id))->row();
+        return $this->db->get_where('categories', array('id'=>$id))->row();
     }
     
     function get_category_products_admin($id)
@@ -82,13 +82,13 @@ Class Category_model extends MY_Model
         $contents   = array();
         foreach ($result as $product)
         {
-            $result2    = $this->db->get_where($this->_TABLES['PRODUCTS'], array('id'=>$product->product_id));
+            $result2    = $this->db->get_where($this->_TABLES['PRODUCTS'], array('products.id'=>$product->product_id));
             $result2    = $result2->row();
             
             $contents[] = $result2; 
         }
         
-        return $contents;
+		return $contents;
     }
     
     function get_category_products($id, $limit, $offset)

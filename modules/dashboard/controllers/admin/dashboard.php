@@ -9,11 +9,11 @@ class Dashboard extends Admin_Controller {
 		
 		if($this->auth->check_access('Orders'))
 		{
-			redirect($this->config->item('admin_folder').'/orders');
+			redirect('order/admin/order');
 		}
 		
-		$this->load->model('Order_model');
-		$this->load->model('Customer_model');
+		$this->load->model('order/Order_model');
+		$this->load->model('customer/Customer_model');
 		$this->load->helper('date');
 		
 		$this->lang->load('dashboard');

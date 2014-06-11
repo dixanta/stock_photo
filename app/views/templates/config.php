@@ -1,5 +1,5 @@
 <?php echo '<?php  if ( ! defined(\'BASEPATH\')) exit(\'No direct script access allowed\');';?>
-
+<?php
 /*
 |--------------------------------------------------------------------------
 | Base Site URL
@@ -377,3 +377,5 @@ $config['proxy_ips'] = '';
 
 /* End of file config.php */
 /* Location: ./gocart/config/config.php */
+
+?>

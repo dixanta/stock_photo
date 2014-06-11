@@ -5,7 +5,7 @@ class Locations extends Base_Controller {
 	function __construct()
 	{		
 		parent::__construct();
-		$this->load->model('Location_model');
+		$this->load->model('location/location_model');
 		
 	}
 	

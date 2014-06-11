@@ -24,7 +24,7 @@ class MY_Controller extends CI_Controller
 
 		// load the migrations class & settings model
 		//$this->load->library('migration');
-		$this->load->model('Settings_model');
+		$this->load->model('setting/Settings_model');
 	
 		// Migrate to the latest migration file found
 		/*if ( ! $this->migration->latest())
@@ -46,9 +46,9 @@ class MY_Controller extends CI_Controller
 
 		//load the default libraries
 		$this->load->library(array('session', 'auth', 'go_cart'));
-		$this->load->model(array('Customer_model', 'Category_model', 'Location_model'));
+		$this->load->model(array('customer/Customer_model', 'category/Category_model', 'location/Location_model'));
 		$this->load->helper(array('url', 'file', 'string', 'html', 'language'));
-        
+        $this->load->helper(array('form_helper', 'formatting_helper'));
         //if SSL is enabled in config force it here.
         if (config_item('ssl_support') && (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] == 'off'))
 		{
@@ -60,3 +60,4 @@ class MY_Controller extends CI_Controller
 	
 }//end Base_Controller
 
+?>

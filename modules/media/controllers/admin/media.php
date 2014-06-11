@@ -18,7 +18,7 @@ class Media extends Admin_Controller
 
 		if(!is_dir($this->path.'/'.$data['root']))
 		{
-			redirect(config_item('admin_folder').'/media/index/');
+			redirect(site_url('media/admin/media/index/'));
 		}
 
 		$data['files'] = array();
@@ -33,8 +33,8 @@ class Media extends Admin_Controller
 		}
 		
 		natcasesort($data['files']);
-		
-		$this->load->view(config_item('admin_folder').'/iframe/media', $data);
+		$data['view_page']='media/admin/media/iframe/media';
+		$this->load->view('media/admin/media/iframe/media', $data);
 	}
 	
 	function embed()
@@ -49,18 +49,19 @@ class Media extends Admin_Controller
 		if(!file_exists($this->path.'/'.$data['file']))
 		{
 			$this->set_flashdata('error', 'The requested file could not be found');
-			redirect(config_item('admin_folder').'/media/index/');
+			redirect(site_url('media/admin/media/index/'));
 		}
 
-		$this->load->view(config_item('admin_folder').'/iframe/header', $data);
-		$this->load->view(config_item('admin_folder').'/iframe/embed', $data);
-		$this->load->view(config_item('admin_folder').'/iframe/footer', $data);
+		$this->load->view('media/admin/media/iframe/header', $data);
+		$this->load->view('media/admin/media/iframe/embed', $data);
+		$this->load->view('media/admin/media/iframe/footer', $data);
 	
 	}
 	
 	function edit_image()
-	{
-		$this->load->view(config_item('admin_folder').'/iframe/edit_image');
+	{	
+		$data['view_page']='media/admin/media/iframe/edit_image';
+		$this->load->view('media/admin/media/iframe/edit_image', $data);
 	}
 	
 	function create_subfolder()
@@ -87,7 +88,7 @@ class Media extends Admin_Controller
 				$this->session->set_flashdata('error', 'There was an error creating your folder.');
 			}
 		}
-		redirect(config_item('admin_folder').'/media/index/'.$root);
+		redirect(site_url('media/admin/media/index/'.$root));
 	}
 	
 	function move_file()
@@ -141,7 +142,7 @@ class Media extends Admin_Controller
 			$this->session->set_flashdata('error', 'There was an error renaming the requested file.');
 		}
 		
-		redirect(config_item('admin_folder').'/media/index/'.$root);
+		redirect(site_url('media/admin/media/index/'.$root));
 	}
 	
 	function delete()
@@ -161,7 +162,7 @@ class Media extends Admin_Controller
 			$this->session->set_flashdata('message', 'Your file has been successfully deleted.');
 		}
 		
-		redirect(config_item('admin_folder').'/media/index/'.$root);
+		redirect(site_url('media/admin/media/index/'.$root));
 	}
 	
 	function upload()
@@ -179,12 +180,13 @@ class Media extends Admin_Controller
 		if ( ! $this->upload->do_upload())
 		{
 			$this->session->set_flashdata('error', $this->upload->display_errors());
-			redirect(config_item('admin_folder').'/media/index/'.$root);
+			redirect(site_url('media/admin/media/index/'.$root));
 		}
 		else
 		{
 			$this->session->set_flashdata('message', 'Your file has been successfully uploaded.');
-			redirect(config_item('admin_folder').'/media/index/'.$root);
+			redirect(site_url('media/admin/media/index/'.$root));
 		}
 	}
 }	
+?>

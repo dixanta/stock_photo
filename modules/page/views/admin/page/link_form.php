@@ -1,5 +1,4 @@
-
-<?php echo form_open($this->config->item('admin_folder').'/pages/link_form/'.$id); ?>
+<?php echo form_open('page/admin/page/link_form/'.$id); ?>
 
 	<label for="menu_title"><?php echo lang('title');?> </label>
 	<?php
@@ -51,7 +50,6 @@
 
 	<div class="form-actions">
 		<input class="btn btn-primary" type="submit" value="<?php echo lang('save');?>"/>
-	<a href="<?php echo site_url('admin/pages')?>" class="btn btn-danger">Cancel</a>		
+        <a href="<?php echo site_url('page/admin/page')?>" class="btn btn-danger">Cancel</a>
 	</div>
 </form>
-

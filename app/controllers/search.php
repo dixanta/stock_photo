@@ -11,7 +11,7 @@ class Search extends Front_Controller{
 
     function index($code=false, $page = 0)
     {
-        $this->load->model('Search_model');
+        $this->load->model('search/search_model');
 
         //check to see if we have a search term
         if(!$code)

@@ -1,10 +1,10 @@
 <?php echo '<?php if ( ! defined(\'BASEPATH\')) exit(\'No direct script access allowed\');';?>
-
+<?php
 // GoCart Theme
 $config['theme'] = 'default';
 
 // SSL support
-$config['ssl_support'] = <?php echo ($ssl_support)?'true':'false';?>;
+$config['ssl_support'] =  echo ($ssl_support)?'true':'false';
 
 // Business information
 $config['company_name'] = '<?php echo $company_name;?>';
@@ -71,3 +71,5 @@ $config['tax_address'] = 'ship';
 
 //do we tax the cost of shipping?
 $config['tax_shipping'] = false;
+
+?>

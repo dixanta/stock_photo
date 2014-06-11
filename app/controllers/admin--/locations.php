@@ -8,7 +8,7 @@ class Locations extends Admin_Controller {
 		remove_ssl();
 		
 		$this->auth->check_access('Admin', true);
-		$this->load->model('Location_model');
+		$this->load->model('location/location_model');
 		$this->lang->load('location');
 	}
 	
